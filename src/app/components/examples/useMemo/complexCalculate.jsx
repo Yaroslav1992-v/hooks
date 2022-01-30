@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useMemo } from "react";
 import CardWrapper from "../../common/Card";
 import SmallTitle from "../../common/typografy/smallTitle";
+
 function factorial(n) {
-    return factorial(n);
+    return n ? n * factorial(n - 1) : 1;
 }
 function runFactorial(n) {
-    return n ? n * factorial(n - 1) : 1;
+    return factorial(n);
 }
 const ComplexCalculateExample = () => {
     const [value, setValue] = useState(100);
@@ -13,7 +14,7 @@ const ComplexCalculateExample = () => {
     const buttonColor = otherState ? "primary" : "secondary";
     useEffect(() => {
         console.log("render");
-    });
+    }, [buttonColor]);
     const fact = useMemo(() => runFactorial(value), [value]);
     return (
         <>
