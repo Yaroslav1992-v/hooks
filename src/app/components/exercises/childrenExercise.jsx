@@ -20,10 +20,18 @@ const ChildrenExercise = () => {
     );
 };
 const List = ({ children }) => {
-    let i = 1;
-    return React.Children.map(children, (child) => {
-        return <span style={{ display: "flex" }} key={i}>{`${i++}: `}{child}</span>;
-    });
+    const arrayOfChildren = React.Children.toArray(children);
+    console.log(arrayOfChildren);
+    return React.Children.map(arrayOfChildren, (child) =>
+        React.cloneElement(child, {
+            ...child.props,
+            num: +child.key.replace(".", "") + 1
+        }));
+
+    // let i = 1;
+    // return React.Children.map(children, (child) => {
+    //     return <span style={{ display: "flex" }} key={i}>{`${i++}: `}{child}</span>;
+    // });
 };
 List.propTypes = {
     children: PropTypes.oneOfType([
@@ -31,8 +39,11 @@ List.propTypes = {
         PropTypes.node
     ])
 };
-const Component = () => {
-    return <div>Компонент списка</div>;
+const Component = ({ num }) => {
+    return <div>{num} Компонент списка</div>;
+};
+Component.propTypes = {
+    num: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
 };
 
 export default ChildrenExercise;
